@@ -56,7 +56,28 @@ public class ElevatorController {
   }
   
   public Elevator getClosestElevator(int floor){
-    
+    Elevator closestElevator;
+    int diff = 0;
+    while (null == closestElevator){
+      for (Elevator elevator : elevators){
+        if (elevator.getCurrentFloor() == floor){
+          closestElevator = elevator;
+          break;
+        }
+        if (getFloorDiff(floor, elevator.getCurrentFloor()) < diff){
+          diff = getFloorDiff(floor, elevator.getCurrentFloor());
+          closestElevator = elevator;
+        }
+          
+        
+      }      
+    }
+      
+  }
+  
+  private int getFloorDiff(int pos1, int pos2){
+    //some logic to tell me the diff between 2 floors
+    return 1;
   }
   
 
