@@ -10,9 +10,24 @@ package com.organization;
 public class Elevator {
   private int elevatorId;
   private int currentFloor = 1;
+  public int getCurrentFloor() {
+    return currentFloor;
+  }
+
+  public void setCurrentFloor(int currentFloor) {
+    this.currentFloor = currentFloor;
+  }
+
   private boolean doorOpen = false;
-  private boolean doorClosed = true;
     
+  public boolean isDoorOpen() {
+    return doorOpen;
+  }
+
+  public void setDoorOpen(boolean doorOpen) {
+    this.doorOpen = doorOpen;
+  }
+
   public Elevator(int elevatorId) {
     this.elevatorId = elevatorId;
   }
