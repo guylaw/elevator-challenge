@@ -11,14 +11,23 @@ public class Elevator {
   private int elevatorId;
   private int currentFloor = 1;
   private boolean occupied = false;
-  private boolean moving = false;
+  private boolean movingUp = false;
+  private int destinationFloor = 1;
+
+  public int getDestinationFloor() {
+    return destinationFloor;
+  }
+
+  public void setDestinationFloor(int destinationFloor) {
+    this.destinationFloor = destinationFloor;
+  }
 
   public boolean isMovingUp() {
-    return moving;
+    return movingUp;
   }
 
   public void setMovingUp(boolean movingUp) {
-    this.moving = movingUp;
+    this.movingUp = movingUp;
   }
 
   public boolean isOccupied() {

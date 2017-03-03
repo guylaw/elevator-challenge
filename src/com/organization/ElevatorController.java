@@ -62,7 +62,7 @@ public class ElevatorController {
    *         current floor to find nearest.
    */
   public Elevator getClosestElevator(int floor) {
-    Elevator closestElevator;
+    Elevator closestElevator = null;
     int diff = 0;
     while (null == closestElevator) {
       for (Elevator elevator : elevators) {
@@ -70,15 +70,26 @@ public class ElevatorController {
           return elevator;
         }
       }
-      for (Elevator elevator : elevators)
-        if (getFloorDiff(floor, elevator.getCurrentFloor()) < diff) {
-          diff = getFloorDiff(floor, elevator.getCurrentFloor());
+      for (Elevator elevator : elevators) {
+        if (elevator.isOccupied() && elevator.isMovingUp() && elevator.getDestinationFloor() > floor) {
+          return elevator;
+        } else if (elevator.isOccupied() && !elevator.isMovingUp() && elevator.getDestinationFloor() < floor) {
           return elevator;
         }
+      }
+
+      for (Elevator elevator : elevators) {
+        if (elevator.isOccupied()) {
+          continue;
+        }
+        if (getFloorDiff(floor, elevator.getCurrentFloor()) < diff) {
+          diff = getFloorDiff(floor, elevator.getCurrentFloor());
+          closestElevator = elevator;
+        }
+      }
     }
+    return closestElevator;
   }
-
-
 
   private int getFloorDiff(int pos1, int pos2) {
     // some logic to tell me the diff between 2 floors
@@ -102,6 +113,4 @@ public class ElevatorController {
     elevator.setDoorOpen(false);
     System.out.println("Elevator " + elevator.getElevatorId() + " door is open");
   }
-}
-
 }
