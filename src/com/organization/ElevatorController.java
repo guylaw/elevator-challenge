@@ -32,18 +32,19 @@ public class ElevatorController {
   /**
    * @param elevator
    * @param floor
-   * Elevator can request any floor
+   *          Elevator can request any floor
    */
   public void moveToFloor(Elevator elevator, int floor) {
+
     // Requested floor must not exceed max floor or be less than bottom floor.
     if (floor > maxFloor) {
       floor = maxFloor;
     }
-    
-    if (floor < MIN_FLOOR){
+
+    if (floor < MIN_FLOOR) {
       floor = MIN_FLOOR;
     }
-    
+
     int currentFloor = elevator.getCurrentFloor();
 
     // Report current floor as elevator moves
@@ -54,32 +55,35 @@ public class ElevatorController {
 
     elevator.setCurrentFloor(floor);
   }
-  
-  public Elevator getClosestElevator(int floor){
+
+  /**
+   * @param floor
+   * @return Elevator Uses the position of all elevators in comparison to
+   *         current floor to find nearest.
+   */
+  public Elevator getClosestElevator(int floor) {
     Elevator closestElevator;
     int diff = 0;
-    while (null == closestElevator){
-      for (Elevator elevator : elevators){
-        if (elevator.getCurrentFloor() == floor){
-          closestElevator = elevator;
-          break;
+    while (null == closestElevator) {
+      for (Elevator elevator : elevators) {
+        if (elevator.getCurrentFloor() == floor) {
+          return elevator;
         }
-        if (getFloorDiff(floor, elevator.getCurrentFloor()) < diff){
+      }
+      for (Elevator elevator : elevators)
+        if (getFloorDiff(floor, elevator.getCurrentFloor()) < diff) {
           diff = getFloorDiff(floor, elevator.getCurrentFloor());
-          closestElevator = elevator;
+          return elevator;
         }
-          
-        
-      }      
     }
-      
   }
-  
-  private int getFloorDiff(int pos1, int pos2){
-    //some logic to tell me the diff between 2 floors
+
+
+
+  private int getFloorDiff(int pos1, int pos2) {
+    // some logic to tell me the diff between 2 floors
     return 1;
   }
-  
 
   /**
    * @param elevator
@@ -89,7 +93,6 @@ public class ElevatorController {
     elevator.setDoorOpen(true);
     System.out.println("Elevator " + elevator.getElevatorId() + " door is open");
   }
-
 
   /**
    * @param elevator
