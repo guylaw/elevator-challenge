@@ -14,7 +14,6 @@ public class ElevatorController {
   private int maxElevators;
   final static private int MIN_FLOOR = 1;
   ArrayList<Elevator> elevators;
-  
 
   /**
    * @param maxFloor
@@ -33,26 +32,52 @@ public class ElevatorController {
   /**
    * @param elevator
    * @param floor
+   * Elevator can request any floor
    */
-  public void moveToFloor(Elevator elevator, int floor){
-    int currentFloor = elevator.getCurrentFloor();
+  public void moveToFloor(Elevator elevator, int floor) {
+    // Requested floor must not exceed max floor or be less than bottom floor.
+    if (floor > maxFloor) {
+      floor = maxFloor;
+    }
     
+    if (floor < MIN_FLOOR){
+      floor = MIN_FLOOR;
+    }
+    
+    int currentFloor = elevator.getCurrentFloor();
+
+    // Report current floor as elevator moves
     while (currentFloor <= floor) {
       System.out.println("Elevator " + elevator.getElevatorId() + " Floor: " + currentFloor);
       currentFloor++;
     }
-    
+
     elevator.setCurrentFloor(floor);
   }
+  
+  public Elevator getClosestElevator(int floor){
+    
+  }
+  
 
   /**
    * @param elevator
    */
-  public void openDoor (Elevator elevator){
-    if (!elevator.isDoorOpen()){
-      elevator.setDoorOpen(true);
-    }
+  public void openDoor(Elevator elevator) {
+    // Set and report door status
+    elevator.setDoorOpen(true);
+    System.out.println("Elevator " + elevator.getElevatorId() + " door is open");
   }
-  
-  
+
+
+  /**
+   * @param elevator
+   */
+  public void closeDoor(Elevator elevator) {
+    // Set and report door status
+    elevator.setDoorOpen(false);
+    System.out.println("Elevator " + elevator.getElevatorId() + " door is open");
+  }
+}
+
 }
