@@ -13,6 +13,36 @@ public class Elevator {
   private boolean occupied = false;
   private boolean movingUp = false;
   private int destinationFloor = 1;
+  private int trips = 0;
+  private boolean inMaintenanceMode = false;
+  
+  public boolean isInMaintenanceMode() {
+    return inMaintenanceMode;
+  }
+
+  public void setInMaintenanceMode(boolean inMaintenanceMode) {
+    this.inMaintenanceMode = inMaintenanceMode;
+  }
+
+  public int getTrips() {
+    return trips;
+  }
+
+  public void setTrips(int trips) {
+    this.trips = trips;
+  }
+
+  
+  public int getFloorsPassed() {
+    return floorsPassed;
+  }
+
+  public void setFloorsPassed(int floorsPassed) {
+    this.floorsPassed = floorsPassed;
+  }
+
+  private int floorsPassed = 0;
+      
 
   public int getDestinationFloor() {
     return destinationFloor;
@@ -67,9 +97,4 @@ public class Elevator {
   public void setElevatorId(int elevatorId) {
     this.elevatorId = elevatorId;
   }
-
-
-
-  
-
 }

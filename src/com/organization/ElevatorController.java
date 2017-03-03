@@ -51,9 +51,20 @@ public class ElevatorController {
     while (currentFloor <= floor) {
       System.out.println("Elevator " + elevator.getElevatorId() + " Floor: " + currentFloor);
       currentFloor++;
+      //Set the floors passed by this car
+      elevator.setFloorsPassed(elevator.getFloorsPassed()+1);
     }
 
     elevator.setCurrentFloor(floor);
+    
+    //Set the number or trips for this car
+    elevator.setTrips(elevator.getTrips()+1);
+    //Check to see if the car is due for maintenance
+    if (elevator.getTrips() >= 100){
+      elevator.setInMaintenanceMode(true);
+      //we can either  always check for maintenance mode when selecting best elevator or remove it
+      //from the array and provide a way to reintroduce it.
+    }
   }
 
   /**
