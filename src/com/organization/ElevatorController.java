@@ -35,6 +35,9 @@ public class ElevatorController {
    *          Elevator can request any floor
    */
   public void moveToFloor(Elevator elevator, int floor) {
+    // In the case where we used a moving occupied elevator we'll need a way to
+    // resume to original destination
+    // haven't figured that out yet.
 
     // Requested floor must not exceed max floor or be less than bottom floor.
     if (floor > maxFloor) {
@@ -51,19 +54,20 @@ public class ElevatorController {
     while (currentFloor <= floor) {
       System.out.println("Elevator " + elevator.getElevatorId() + " Floor: " + currentFloor);
       currentFloor++;
-      //Set the floors passed by this car
-      elevator.setFloorsPassed(elevator.getFloorsPassed()+1);
+      // Set the floors passed by this car
+      elevator.setFloorsPassed(elevator.getFloorsPassed() + 1);
     }
 
     elevator.setCurrentFloor(floor);
-    
-    //Set the number or trips for this car
-    elevator.setTrips(elevator.getTrips()+1);
-    //Check to see if the car is due for maintenance
-    if (elevator.getTrips() >= 100){
+
+    // Set the number or trips for this car
+    elevator.setTrips(elevator.getTrips() + 1);
+    // Check to see if the car is due for maintenance
+    if (elevator.getTrips() >= 100) {
       elevator.setInMaintenanceMode(true);
-      //we can either  always check for maintenance mode when selecting best elevator or remove it
-      //from the array and provide a way to reintroduce it.
+      // we can either always check for maintenance mode when selecting best
+      // elevator or remove it
+      // from the array and provide a way to reintroduce it.
     }
   }
 
@@ -73,15 +77,27 @@ public class ElevatorController {
    *         current floor to find nearest.
    */
   public Elevator getClosestElevator(int floor) {
+    // I don't like this method because it is doing too many iterations and
+    // returning in multiple places
+    // but I don't have time to refactor it now.
+
+    // I'm making a copy of the arraylist so I can work with an array that has
+    // cars in maintenance removed
+    ArrayList<Elevator> activeElevators = new ArrayList<>();
+    for (Elevator elevator : elevators) {
+      if (!elevator.isInMaintenanceMode()) {
+        activeElevators.add(elevator);
+      }
+    }
     Elevator closestElevator = null;
     int diff = 0;
     while (null == closestElevator) {
-      for (Elevator elevator : elevators) {
+      for (Elevator elevator : activeElevators) {
         if (elevator.getCurrentFloor() == floor) {
           return elevator;
         }
       }
-      for (Elevator elevator : elevators) {
+      for (Elevator elevator : activeElevators) {
         if (elevator.isOccupied() && elevator.isMovingUp() && elevator.getDestinationFloor() > floor) {
           return elevator;
         } else if (elevator.isOccupied() && !elevator.isMovingUp() && elevator.getDestinationFloor() < floor) {
@@ -89,7 +105,7 @@ public class ElevatorController {
         }
       }
 
-      for (Elevator elevator : elevators) {
+      for (Elevator elevator : activeElevators) {
         if (elevator.isOccupied()) {
           continue;
         }
@@ -104,7 +120,7 @@ public class ElevatorController {
 
   private int getFloorDiff(int pos1, int pos2) {
     // some logic to tell me the diff between 2 floors
-    return 1;
+    return Math.abs(pos1 - pos2);
   }
 
   /**
